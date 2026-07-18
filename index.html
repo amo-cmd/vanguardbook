@@ -558,5 +558,427 @@
 </div>
 </footer>
 <a class="mobile-sticky-cta" href="https://cal.com/amo-manaka-iif85y/free-30-min-ai-strategy-call" target="_blank" rel="noopener noreferrer">Book Free Strategy Call</a>
+<script>
+(() => {
+  const LEGAL_PAGE = "/legal.html";
+
+  // ---------- Styles ----------
+  const style = document.createElement("style");
+
+  style.textContent = `
+    .vb-legal-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .vb-legal-links a {
+      color: #6B7280;
+      font-size: 13px;
+      text-decoration: none;
+      transition: color .2s ease;
+    }
+
+    .vb-legal-links a:hover {
+      color: #1B4F9C;
+    }
+
+    .vb-cookie-banner {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      z-index: 9999;
+      width: min(920px, calc(100% - 28px));
+      transform: translateX(-50%) translateY(20px);
+      opacity: 0;
+      visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+      background: rgba(21,23,31,.97);
+      color: #fff;
+      box-shadow: 0 24px 70px rgba(0,0,0,.28);
+      backdrop-filter: blur(16px);
+      transition: opacity .25s ease, transform .25s ease, visibility .25s ease;
+    }
+
+    .vb-cookie-banner.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .vb-cookie-copy strong {
+      display: block;
+      margin-bottom: 4px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+    }
+
+    .vb-cookie-copy p {
+      margin: 0;
+      color: #C6C9D2;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .vb-cookie-copy a {
+      color: #fff;
+      text-decoration: underline;
+    }
+
+    .vb-cookie-actions {
+      display: flex;
+      gap: 9px;
+      flex-shrink: 0;
+    }
+
+    .vb-cookie-btn {
+      border: 0;
+      border-radius: 9px;
+      padding: 11px 14px;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .vb-cookie-btn.secondary {
+      background: rgba(255,255,255,.1);
+      color: #fff;
+    }
+
+    .vb-cookie-btn.primary {
+      background: #2FB0B5;
+      color: #092C2E;
+    }
+
+    .vb-legal-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: none;
+      place-items: center;
+      padding: 20px;
+      background: rgba(10,12,18,.72);
+      backdrop-filter: blur(10px);
+    }
+
+    .vb-legal-modal-backdrop.show {
+      display: grid;
+    }
+
+    .vb-legal-modal {
+      width: min(760px, 100%);
+      max-height: 85vh;
+      overflow-y: auto;
+      border-radius: 20px;
+      background: #fff;
+      color: #15171F;
+      box-shadow: 0 30px 100px rgba(0,0,0,.3);
+    }
+
+    .vb-legal-modal-head {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 22px;
+      border-bottom: 1px solid #E7E5E0;
+      background: rgba(255,255,255,.97);
+      backdrop-filter: blur(12px);
+    }
+
+    .vb-legal-modal-head h3 {
+      margin: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px;
+    }
+
+    .vb-legal-close {
+      width: 36px;
+      height: 36px;
+      border: 0;
+      border-radius: 10px;
+      background: #F1F3F6;
+      color: #15171F;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .vb-legal-modal-body {
+      padding: 24px 22px 28px;
+    }
+
+    .vb-legal-modal-body p,
+    .vb-legal-modal-body li {
+      color: #6B7280;
+    }
+
+    .vb-legal-modal-body h4 {
+      margin: 24px 0 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 16px;
+    }
+
+    .vb-legal-modal-body ul {
+      padding-left: 20px;
+    }
+
+    .vb-legal-modal-footer {
+      padding: 0 22px 24px;
+    }
+
+    .vb-legal-full-link {
+      display: inline-block;
+      padding: 11px 16px;
+      border-radius: 9px;
+      background: #1B4F9C;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    @media (max-width: 680px) {
+      .vb-cookie-banner {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .vb-cookie-actions {
+        width: 100%;
+      }
+
+      .vb-cookie-btn {
+        flex: 1;
+      }
+
+      .vb-legal-modal-backdrop {
+        padding: 12px;
+      }
+    }
+  `;
+
+  document.head.appendChild(style);
+
+  // ---------- Footer legal links ----------
+  const footer = document.querySelector("footer .container") || document.querySelector("footer");
+
+  if (footer && !document.querySelector(".vb-legal-links")) {
+    const links = document.createElement("div");
+    links.className = "vb-legal-links";
+
+    links.innerHTML = `
+      <a href="${LEGAL_PAGE}#privacy">Privacy Policy</a>
+      <a href="${LEGAL_PAGE}#terms">Terms of Service</a>
+      <a href="${LEGAL_PAGE}#cookies">Cookie Policy</a>
+      <a href="${LEGAL_PAGE}#refunds">Refund Policy</a>
+      <a href="${LEGAL_PAGE}#disclaimer">AI Disclaimer</a>
+      <a href="${LEGAL_PAGE}#popia">POPIA Notice</a>
+    `;
+
+    footer.appendChild(links);
+  }
+
+  // ---------- Cookie banner ----------
+  const cookieBanner = document.createElement("div");
+  cookieBanner.className = "vb-cookie-banner";
+  cookieBanner.setAttribute("role", "dialog");
+  cookieBanner.setAttribute("aria-label", "Cookie preferences");
+
+  cookieBanner.innerHTML = `
+    <div class="vb-cookie-copy">
+      <strong>Your privacy matters</strong>
+      <p>
+        We use essential cookies to keep the site working.
+        Optional analytics only run with your permission.
+        <a href="${LEGAL_PAGE}#cookies">Learn more</a>
+      </p>
+    </div>
+
+    <div class="vb-cookie-actions">
+      <button class="vb-cookie-btn secondary" id="vbEssentialOnly" type="button">
+        Essential only
+      </button>
+
+      <button class="vb-cookie-btn primary" id="vbAcceptAnalytics" type="button">
+        Accept analytics
+      </button>
+    </div>
+  `;
+
+  document.body.appendChild(cookieBanner);
+
+  const storedConsent = localStorage.getItem("vanguard_cookie_consent");
+
+  if (!storedConsent) {
+    setTimeout(() => {
+      cookieBanner.classList.add("show");
+    }, 500);
+  }
+
+  function saveCookieConsent(value) {
+    localStorage.setItem("vanguard_cookie_consent", value);
+    cookieBanner.classList.remove("show");
+
+    if (value === "analytics") {
+      loadAnalytics();
+    }
+  }
+
+  document
+    .getElementById("vbEssentialOnly")
+    .addEventListener("click", () => {
+      saveCookieConsent("essential");
+    });
+
+  document
+    .getElementById("vbAcceptAnalytics")
+    .addEventListener("click", () => {
+      saveCookieConsent("analytics");
+    });
+
+  // Add Google Analytics or another analytics tool inside this function.
+  function loadAnalytics() {
+    if (window.vanguardAnalyticsLoaded) return;
+
+    window.vanguardAnalyticsLoaded = true;
+
+    /*
+    Example Google Analytics setup:
+
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = "https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX";
+    document.head.appendChild(script);
+
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag("js", new Date());
+    gtag("config", "G-XXXXXXXXXX");
+    */
+  }
+
+  if (storedConsent === "analytics") {
+    loadAnalytics();
+  }
+
+  // ---------- Quick legal modal ----------
+  const modalBackdrop = document.createElement("div");
+  modalBackdrop.className = "vb-legal-modal-backdrop";
+
+  modalBackdrop.innerHTML = `
+    <div class="vb-legal-modal" role="dialog" aria-modal="true" aria-labelledby="vbLegalTitle">
+      <div class="vb-legal-modal-head">
+        <h3 id="vbLegalTitle">Vanguard Book Legal Summary</h3>
+        <button class="vb-legal-close" type="button" aria-label="Close legal summary">×</button>
+      </div>
+
+      <div class="vb-legal-modal-body">
+        <p>
+          Vanguard Book provides AI automation services including AI receptionists,
+          booking systems, customer communication workflows and follow-up systems.
+        </p>
+
+        <h4>Privacy</h4>
+        <p>
+          We collect information needed to respond to enquiries, prepare proposals,
+          deliver services and provide support. We do not sell personal information.
+        </p>
+
+        <h4>Client data</h4>
+        <p>
+          Clients retain ownership of their business data and remain responsible for
+          ensuring that customer information is collected and used lawfully.
+        </p>
+
+        <h4>AI limitations</h4>
+        <p>
+          AI may produce inaccurate or unexpected outputs and must not replace qualified
+          human judgment in medical, legal, financial, emergency or other high-impact matters.
+        </p>
+
+        <h4>Payments and refunds</h4>
+        <p>
+          Fees are confirmed in writing. Custom setup payments generally become
+          non-refundable once work has begun, subject to the signed agreement and applicable law.
+        </p>
+
+        <h4>No guaranteed results</h4>
+        <p>
+          Vanguard Book does not guarantee a specific number of leads, bookings,
+          sales, reviews or revenue.
+        </p>
+      </div>
+
+      <div class="vb-legal-modal-footer">
+        <a class="vb-legal-full-link" href="${LEGAL_PAGE}">
+          Read the full Legal Centre
+        </a>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modalBackdrop);
+
+  const closeModal = () => {
+    modalBackdrop.classList.remove("show");
+    document.body.style.overflow = "";
+  };
+
+  const openModal = () => {
+    modalBackdrop.classList.add("show");
+    document.body.style.overflow = "hidden";
+  };
+
+  modalBackdrop
+    .querySelector(".vb-legal-close")
+    .addEventListener("click", closeModal);
+
+  modalBackdrop.addEventListener("click", event => {
+    if (event.target === modalBackdrop) {
+      closeModal();
+    }
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      closeModal();
+    }
+  });
+
+  // Any element with data-open-legal will open the popup.
+  document.querySelectorAll("[data-open-legal]").forEach(element => {
+    element.addEventListener("click", event => {
+      event.preventDefault();
+      openModal();
+    });
+  });
+
+  // Optional: automatically turn a link with id="legal-summary"
+  // into the popup trigger.
+  const legalSummaryLink = document.getElementById("legal-summary");
+
+  if (legalSummaryLink) {
+    legalSummaryLink.addEventListener("click", event => {
+      event.preventDefault();
+      openModal();
+    });
+  }
+})();
+</script>
 </body>
 </html>
